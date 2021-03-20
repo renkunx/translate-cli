@@ -1,0 +1,25 @@
+{
+  "name": "translate-cli",
+  "version": "1.0.0",
+  "description": "Machine learning translate any language by Baidu api.",
+  "main": "index.js",
+  "bin": {
+    "translate": "./index.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "translate",
+    "json",
+    "baidu"
+  ],
+  "author": "ren kun",
+  "license": "ISC",
+  "dependencies": {
+    "commander": "^7.1.0",
+    "json-stable-stringify-without-jsonify": "^1.0.1",
+    "md5": "^2.3.0",
+    "urllib": "^2.36.1"
+  }
+}
