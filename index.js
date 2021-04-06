@@ -1,10 +1,11 @@
 #!/usr/bin/env node
 "use strict";
 const { Command } = require('commander');
-const path = require('path');
 const log = require("./lib/logging");
 const program = new Command();
 const { version } = require('./package.json');
+const { readAsObject } = require('./lib/file');
+const addedDiff = require("deep-object-diff").addedDiff;
 
 program
   .version(version, '-v,--version', 'output the current version')
@@ -12,23 +13,15 @@ program
   .arguments('<from> <to>')
   .action((from, to) => {
     // 从from文件中导出翻译对象
-    let str = ;
-    // log.info(str);
-    let fromObject = eval('('+str+')');
-    log.info(fromObject.common);
+    let fromObject = readAsObject(from);
     // 从to文件中导出翻译对象
-    // let toObject = require(path.resolve(basePath,to));
-    // for (const key in fromObject) {
-    //   if (Object.hasOwnProperty.call(fromObject, key)) {
-    //     const element = fromObject[key];
-    //     log.info(element)
-    //   }
-    // }
-    // log.info(fromObject)
-    // log.info(toObject)
+    let toObject = readAsObject(to);
     // 比对 from 和 to 对象的差异，返回差异对象
+    let diffObj = addedDiff(toObject,fromObject);
     // 翻译差异对象
     // 写入插入对象
+    toObject = Object.assign(toObject,diffObj);
+    log.info(toObject);
 
   })
   .option('-p, --platform [name]', 'designated translation platform', 'baidu');
