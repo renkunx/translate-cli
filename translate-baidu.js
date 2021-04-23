@@ -7,7 +7,6 @@ const urllib = require("urllib")
 const log = require("./lib/logging")
 const config = require("./translate.local")
 const salt = getRandomInt(1000001, 10000000).toString()
-
 // APPID
 const appid = config.baidu.appid
 // 密钥
@@ -31,7 +30,7 @@ const translate = (queryString, from='auto', to) => {
     {
       method: "POST",
       data: {
-        q,
+        q: queryString,
         from,
         to,
         appid,
@@ -57,5 +56,8 @@ function getRandomInt(min, max) {
 const baidu = {
   translate
 }
+
+
+// translate('我叫任琨', 'zh', 'en').then(res => log.info(res.data.trans_result));
 
 module.exports = baidu
