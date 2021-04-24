@@ -3,7 +3,8 @@
  */
 
 const md5 = require("md5")
-const urllib = require("urllib")
+const axios = require("axios")
+const FormData = require("form-data")
 const log = require("./lib/logging")
 const config = require("./translate.local")
 const salt = getRandomInt(1000001, 10000000).toString()
@@ -20,30 +21,23 @@ const host = "https://fanyi-api.baidu.com/api/trans/vip/translate"
  * @param {*} from
  * @param {*} to
  */
-const translate = (queryString, from='auto', to) => {
+const translate = async (queryString, from='auto', to) => {
   if (!appid || !appkey) {
     log.error('请检查baidu翻译的appid和key设置')
   }
   const sign = md5(`${appid}${queryString}${salt}${appkey}`)
-  return urllib.request(
-    host,
-    {
-      method: "POST",
-      data: {
-        q: queryString,
-        from,
-        to,
-        appid,
-        salt,
-        sign,
-        tts: 1,
-        dict: 1,
-        action: 0,
-      },
-      contentType: "multipart/form-data",
-      dataType: "json",
-    }
-  )
+  var data = new FormData();
+  data.append('q', queryString);
+  data.append('from', from);
+  data.append('to', to);
+  data.append('appid', appid);
+  data.append('salt', salt);
+  data.append('sign', sign);
+  data.append('tts', '1');
+  data.append('dict', '1');
+
+  let response = await axios.post(host, data, {headers: {...data.getHeaders()}})
+  log.info(response.data)
 }
 
 // 得到一个两数之间的随机整数
@@ -58,6 +52,6 @@ const baidu = {
 }
 
 
-// translate('我叫任琨', 'zh', 'en').then(res => log.info(res.data.trans_result));
+translate('我叫任琨', 'zh', 'en');
 
 module.exports = baidu

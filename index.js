@@ -22,10 +22,7 @@ program
     let diffObj = addedDiff(toObject,fromObject);
     // 翻译差异对象
     function translate() {
-      baidu.translate(element , 'zh', 'en').then(res => {
-        log.info(res.data.trans_result);
-        object[key] = res.data.trans_result[0].dst;
-      })
+      baidu.translate(element , 'zh', 'en')
     }
     diffObj = await utils.iterateObject(diffObj, (object, key , element) => {
       utils.lodash.throttle( translate, 1*1000);
