@@ -37,7 +37,9 @@ const translate = async (queryString, from='auto', to) => {
   data.append('dict', '1');
 
   let response = await axios.post(host, data, {headers: {...data.getHeaders()}})
-  log.info(response.data)
+  log.info(response)
+  // let translated = response && response.trans_result && response.trans_result.dst ? response.trans_result.dst : ''
+  return response.trans_result;
 }
 
 // 得到一个两数之间的随机整数
@@ -52,6 +54,6 @@ const baidu = {
 }
 
 
-translate('我叫任琨', 'zh', 'en');
+log.info(translate('我叫任琨', 'zh', 'en'));
 
 module.exports = baidu

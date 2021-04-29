@@ -21,11 +21,11 @@ program
     // 比对 from 和 to 对象的差异，返回差异对象
     let diffObj = addedDiff(toObject,fromObject);
     // 翻译差异对象
-    function translate() {
-      baidu.translate(element , 'zh', 'en')
+    function translate(object, key , element) {
+      return object[key] = baidu.translate(element , 'zh', 'en')
     }
     diffObj = await utils.iterateObject(diffObj, (object, key , element) => {
-      utils.lodash.throttle( translate, 1*1000);
+      return translate(object, key , element)
     });
     // 写入插入对象
     toObject = Object.assign(toObject,diffObj);
