@@ -7,7 +7,7 @@ const { version } = require('./package.json');
 const { readAsObject } = require('./lib/file');
 const addedDiff = require("deep-object-diff").addedDiff;
 const baidu = require("./translate-baidu");
-const utils = require('./lib/utils')
+const utils = require('./lib/utils');
 
 program
   .version(version, '-v,--version', 'output the current version')
@@ -21,16 +21,21 @@ program
     // 比对 from 和 to 对象的差异，返回差异对象
     let diffObj = addedDiff(toObject,fromObject);
     // 翻译差异对象
-    function translate(object, key , element) {
-      return object[key] = baidu.translate(element , 'zh', 'en')
+    let iterators = utils.iterateObject(diffObj);
+    var iterator = iterators.next()
+    while (!iterator.done){
+      let result = iterator.value
+      let {data} = await baidu.translate(result.value , 'zh', 'en')
+      if (data.error_msg) {
+        log.error(error_msg)
+      } else {
+        utils.lodash.set(diffObj, result.key, data.trans_result[0].dst)
+      }
+      iterator = iterators.next()
     }
-    diffObj = await utils.iterateObject(diffObj, (object, key , element) => {
-      return translate(object, key , element)
-    });
     // 写入插入对象
     toObject = Object.assign(toObject,diffObj);
     log.info(toObject);
-
   })
   .option('-p, --platform [name]', 'designated translation platform', 'baidu');
 

@@ -5,14 +5,23 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "type": "node",
+      "request": "launch",
+      "name": "Launch utils",
+      "program": "${workspaceFolder}/lib/utils.js",
+      "skipFiles": [
+        "<node_internals>/**"
+      ]
+    },
+    {
       "type": "pwa-node",
       "request": "launch",
       "name": "Launch Program",
       "skipFiles": [
         "<node_internals>/**"
       ],
-      "program": "${workspaceFolder}\\index.js",
-      "args": [".\\zh.js", ".\\en.js"],
+      "program": "${workspaceFolder}/index.js",
+      "args": ["zh.js", "en.js"],
     }
   ]
 }

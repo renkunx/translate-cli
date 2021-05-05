@@ -21,7 +21,7 @@ const host = "https://fanyi-api.baidu.com/api/trans/vip/translate"
  * @param {*} from
  * @param {*} to
  */
-const translate = async (queryString, from='auto', to) => {
+const translate = (queryString, from='auto', to) => {
   if (!appid || !appkey) {
     log.error('请检查baidu翻译的appid和key设置')
   }
@@ -35,11 +35,7 @@ const translate = async (queryString, from='auto', to) => {
   data.append('sign', sign);
   data.append('tts', '1');
   data.append('dict', '1');
-
-  let response = await axios.post(host, data, {headers: {...data.getHeaders()}})
-  log.info(response)
-  // let translated = response && response.trans_result && response.trans_result.dst ? response.trans_result.dst : ''
-  return response.trans_result;
+  return axios.post(host, data, {headers: {...data.getHeaders()}});
 }
 
 // 得到一个两数之间的随机整数
@@ -52,8 +48,5 @@ function getRandomInt(min, max) {
 const baidu = {
   translate
 }
-
-
-log.info(translate('我叫任琨', 'zh', 'en'));
 
 module.exports = baidu
