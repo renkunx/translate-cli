@@ -4,7 +4,7 @@ const { Command } = require('commander');
 const log = require("./lib/logging");
 const program = new Command();
 const { version } = require('./package.json');
-const { readAsObject } = require('./lib/file');
+const { readAsObject, writeBack } = require('./lib/file');
 const addedDiff = require("deep-object-diff").addedDiff;
 const baidu = require("./translate-baidu");
 const utils = require('./lib/utils');
@@ -35,7 +35,7 @@ program
     }
     // 写入插入对象
     toObject = Object.assign(toObject,diffObj);
-    log.info(toObject);
+    writeBack(toObject, to);
   })
   .option('-p, --platform [name]', 'designated translation platform', 'baidu');
 
