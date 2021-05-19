@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 "use strict";
 const { Command } = require('commander');
+const ora = require('ora');
 const log = require("./lib/logging");
 const program = new Command();
 const { version } = require('./package.json');
@@ -14,6 +15,7 @@ program
   .description('Machine learning translate any language.')
   .arguments('<from> <to>')
   .action( async(from, to) => {
+    const spinner = ora('处理中...').start();
     // 从from文件中导出翻译对象
     let fromObject = readAsObject(from);
     // 从to文件中导出翻译对象
@@ -23,6 +25,11 @@ program
     // 翻译差异对象
     let iterators = utils.iterateObject(diffObj);
     var iterator = iterators.next()
+    // 统计对象
+    let statistic = {
+      counts: 0,
+      characters: 0
+    }
     while (!iterator.done){
       let result = iterator.value
       let {data} = await baidu.translate(result.value , 'zh', 'en')
@@ -31,11 +38,17 @@ program
       } else {
         utils.lodash.set(diffObj, result.key, data.trans_result[0].dst)
       }
+      spinner.succeed(result.key)
+      statistic.counts += 1
+      statistic.characters += result.value.length
       iterator = iterators.next()
     }
     // 写入插入对象
     toObject = Object.assign(toObject,diffObj);
     writeBack(toObject, to);
+    spinner.stop();
+    // 打印统计数据
+    console.table(statistic);  
   })
   .option('-p, --platform [name]', 'designated translation platform', 'baidu');
 
