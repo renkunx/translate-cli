@@ -1,6 +1,6 @@
 {
   "name": "@renkunx/translate-cli",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Machine learning translate any language by public api.",
   "main": "index.js",
   "bin": {
