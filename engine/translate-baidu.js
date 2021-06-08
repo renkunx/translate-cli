@@ -5,8 +5,8 @@
 const md5 = require("md5")
 const axios = require("axios")
 const FormData = require("form-data")
-const log = require("./lib/logging")
-const config = require("./translate.local")
+const log = require("../lib/logging")
+const config = require("../translate.local")
 const salt = getRandomInt(1000001, 10000000).toString()
 // APPID
 const appid = config.baidu.appid
