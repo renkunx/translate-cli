@@ -6,12 +6,8 @@ const md5 = require("md5")
 const axios = require("axios")
 const FormData = require("form-data")
 const log = require("../lib/logging")
-const config = require("../translate.local")
 const salt = getRandomInt(1000001, 10000000).toString()
-// APPID
-const appid = config.baidu.appid
-// 密钥
-const appkey = config.baidu.appkey
+
 // 请求地址
 const host = "https://fanyi-api.baidu.com/api/trans/vip/translate"
 
@@ -21,7 +17,11 @@ const host = "https://fanyi-api.baidu.com/api/trans/vip/translate"
  * @param {*} from
  * @param {*} to
  */
-const translate = (queryString, from='auto', to) => {
+const translate = (queryString, from='auto', to, config) => {
+  // APPID
+  const appid = config.appid
+  // 密钥
+  const appkey = config.appkey
   if (!appid || !appkey) {
     log.error('请检查baidu翻译的appid和key设置')
   }

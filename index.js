@@ -6,6 +6,7 @@ const log = require("./lib/logging");
 const program = new commander.Command();
 const { version } = require('./package.json');
 const { readAsObject, writeBack } = require('./lib/file');
+const { readJSConfigFile } = require('./lib/init');
 const addedDiff = require("deep-object-diff").addedDiff;
 const engine = require("./engine");
 const utils = require('./lib/utils');
@@ -15,23 +16,35 @@ program
   .description('Machine learning translate any language.')
   .addOption(new commander.Option('-p, --platform [name]', 'designated translation platform').default('baidu').choices(['baidu','google']))
   .addOption(new commander.Option('-t, --type [type]', 'designated translation content').default('string').choices(['string','file']))
+  .addOption(new commander.Option('-f, --config [type]', 'config file').default('translate.config.js'))
   .arguments('<from> [to]')
   .action( async(from, to='en', options) => {
+    // 读取配置文件
+    const configAll = readJSConfigFile(options.config)
     let translateEngine = engine[options.platform]
+    const config = configAll[options.platform]
+    // 未获取到配置
+    if (!config) {
+      return
+    }
     if (options.type === 'file') {
       // 翻译文件
-      translateFile(from, to, translateEngine);     
+      translateFile(from, to, translateEngine, config);     
     } else {
       // 直接翻译
-      let {data} = await translateEngine.translate(from , 'zh', to)
-      log.info(data.trans_result[0].dst)
+      let {data} = await translateEngine.translate(from , 'auto', to, config)
+      if (data.error_msg) {
+        log.error(error_msg)
+      } else {
+        log.info(data.trans_result[0].dst)
+      }
     }
     
   });
 
 program.parse()
 
-async function translateFile(from, to, translateEngine) {
+async function translateFile(from, to, translateEngine, config) {
   const spinner = ora('文件处理中...').start();
   // 从from文件中导出翻译对象
   let fromObject = readAsObject(from);
@@ -49,7 +62,7 @@ async function translateFile(from, to, translateEngine) {
   }
   while (!iterator.done){
     let result = iterator.value
-    let {data} = await translateEngine.translate(result.value , 'zh', 'en')
+    let {data} = await translateEngine.translate(result.value , 'zh', 'en', config)
     if (data.error_msg) {
       log.error(error_msg)
     } else {

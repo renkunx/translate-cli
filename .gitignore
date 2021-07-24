@@ -112,3 +112,6 @@ dist
 
 # vscode
 .vscode
+
+# config files
+translate.config.js
