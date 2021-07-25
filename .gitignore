@@ -107,9 +107,6 @@ dist
 # ignore local config 
 *.local.*
 
-# ignore lock file
-*lock.*
-
 # vscode
 .vscode
 
