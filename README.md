@@ -128,3 +128,8 @@ translate '将要翻译成日语' jp
 
 
 
+## Test Github workflow
+
+```shell
+act release --secret-file act.local.env
+```
