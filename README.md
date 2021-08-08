@@ -2,6 +2,7 @@
 
 Machine learning translate any language.
 
+[![Node.js Package](https://github.com/renkunx/translate-cli/actions/workflows/npm-publish.yml/badge.svg)](https://github.com/renkunx/translate-cli/actions/workflows/npm-publish.yml)
 ## Usage
 
 ```js
