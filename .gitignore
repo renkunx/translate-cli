@@ -112,3 +112,6 @@ dist
 
 # config files
 translate.config.js
+
+# secret files
+.secrets
