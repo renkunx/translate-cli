@@ -134,3 +134,14 @@ translate '将要翻译成日语' jp
 ```shell
 act release --secret-file act.local.env
 ```
+
+
+## Tips
+
+- 使用workflow发布时，因为docker设置了registry-url，需要删除package.json里的publishConfig
+- 带有scope的包，在workflow需要带上scope参数，否则一致报401
+  
+``` shell
+npm ERR! code E401
+npm ERR! Unable to authenticate, need: Basic realm="GitHub Package Registry"
+```
