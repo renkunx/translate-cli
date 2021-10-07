@@ -1,0 +1,11 @@
+export default {
+  "File processing...": "File processing...",
+  "Machine learning translate any language.": "Machine learning translate any language.",
+  "config file": "config file",
+  configNotFound: "The configuration file is not obtained, use the default configuration!",
+  "designated translation content": "designated translation content",
+  "designated translation platform": "designated translation platform",
+  hello: "hello",
+  "output the current version": "output the current version",
+  unrecognizedObjectType: "Unrecognized object type"
+};

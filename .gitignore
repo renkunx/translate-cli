@@ -115,3 +115,6 @@ translate.config.js
 
 # secret files
 .secrets
+
+# package-lock
+package-lock.json

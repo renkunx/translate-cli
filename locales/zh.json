@@ -1,0 +1,11 @@
+{
+	"Machine learning translate any language.": "机器学习可以翻译任何语言。",
+	"config file": "配置文件",
+	"designated translation content": "指定翻译内容",
+	"designated translation platform": "指定翻译平台",
+	"hello": "你好",
+	"output the current version": "输出当前版本",
+	"configNotFound": "配置文件未获取到,使用默认配置！",
+	"unrecognizedObjectType": "未识别的对象类型",
+	"File processing...": "文件处理中..."
+}
