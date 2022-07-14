@@ -36,7 +36,7 @@ program
       // 直接翻译
       let {data} = await translateEngine.translate(from , 'auto', to, config)
       if (data.error_msg) {
-        log.error(error_msg)
+        log.error(data.error_msg)
       } else {
         log.info(data.trans_result[0].dst)
       }
