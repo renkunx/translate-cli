@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 "use strict";
 const commander = require('commander');
-const ora = require('ora');
+const ora = import('ora');
 const path = require('path');
 const log = require("./lib/logging");
 const program = new commander.Command();
